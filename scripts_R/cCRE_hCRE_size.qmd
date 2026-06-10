@@ -1,0 +1,81 @@
+---
+title: "cCRE_size"
+format: html
+editor: visual
+---
+
+## cCRE (162) Size distribution
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+Load Data
+
+```{r}
+ccre_table <- data.frame(read_tsv("/Users/christianmei/Documents/Boston_University/Fall_2022_Research/TF_prediction_results/Hypotheses/uncharacterized_crm_hypothesis/cluster_medium_H3K4me1/cluster_regions_filtered.bed", col_names = FALSE))
+column_names <- c("chromosome",
+                  "start",
+                  "end",
+                  "cluster_ID")
+colnames(ccre_table)<- column_names
+
+head(ccre_table)
+```
+
+Use coordinates to calculate size
+
+```{r}
+ccre_table <- ccre_table %>% mutate(
+  size = end - start
+)
+
+head(ccre_table)
+
+write_csv(ccre_table,
+          file = "/Users/christianmei/Documents/Boston_University/Fall_2022_Research/TF_prediction_results/Hypotheses/uncharacterized_crm_hypothesis/cluster_medium_H3K4me1/2026_06_08_cCRE_sizes.csv")
+```
+
+Plot sizes
+
+```{r}
+ccre_hist <- ggplot(ccre_table, aes(x = size)) +
+  geom_histogram(color = "black", fill = "lightblue") +
+  labs(x = "cCRE size (bp)", y = "Frequency") +
+  theme_classic()
+
+plot(ccre_hist)
+ggsave("ccre_size_hist.pdf", plot = ccre_hist, width = 6, height = 4, units = "in")
+
+```
+
+Take high confidence cCREs and also measure their size. These fragments have covered the entire ATAC-seq peak
+
+```{r}
+hcre_table <- data.frame(read_tsv("/Users/christianmei/Documents/Boston_University/Fall_2022_Research/TF_prediction_results/Hypotheses/uncharacterized_crm_hypothesis/candidate_enahncers.bed", col_names = FALSE))
+
+hcre_table <- hcre_table %>% mutate(
+  size = X3 - X2
+)
+
+hcre_table
+```
+
+Get the mean size
+
+```{r}
+mean(ccre_table$size)
+```
+
+Compare with the initial cluster sizes
+
+```{r}
+hcre_old <- ccre_table %>% filter(X4 == "16864" |
+                                  X4 == "12859" |
+                                    X4 == "3330"|
+                                    X4 == "9323" |
+                                    X4 == "11869")
+
+hcre_old
+```
