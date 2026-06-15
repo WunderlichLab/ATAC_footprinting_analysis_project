@@ -1,23 +1,24 @@
+# Pipeline for "Novel Drosophila cis-regulatory elements can be uncovered by footprinting transcription factor binding sites in ATAC-seq data"
 
+This repository contains a complete pipeline for processing genomic datasets in *Drosophila melanogaster* to detect transcription factor (TF) footprints in previously published ATAC-seq data. We perform a genome-wide mapping of these TF footprints and even search for novel cis-regulatory elements from TF footprint clusters filtered by cluster size, active enahncer epigenetic signatures, evolutionary conservation across 15 species (PhastCons 15).
 
+---
 
-
-
-
+## Workflow Architecture
 
 ```mermaid
 graph TD
     %% --- STYLE DEFINITIONS ---
-    classDef input fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef script fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef process fill:#fff,stroke:#333,stroke-width:1px;
-    classDef output fill:#bfb,stroke:#333,stroke-width:2px;
-    classDef final fill:#fbc,stroke:#333,stroke-width:3px;
+    classDef input fill:#f9f,stroke:#333,stroke-width:2px,color:#000;
+    classDef script fill:#bbf,stroke:#333,stroke-width:2px,color:#000;
+    classDef process fill:#fff,stroke:#333,stroke-width:1px,color:#000;
+    classDef output fill:#bfb,stroke:#333,stroke-width:2px,color:#000;
+    classDef final fill:#fbc,stroke:#333,stroke-width:3px,color:#000;
 
     %% --- TITLE STYLE via HTML header tags ---
     subgraph Phase_1 ["<b><big>Phase 1: Active TF Footprint Isolation</big></b>"]
         direction TB
-        A1["Raw ATAC-seq BAMs (*_chr.bam)"]:::input --> B1["tobias_footprinting_pipeline.sh<br>(TOBIAS Framework)"]:::script
+        A1["Raw ATAC-seq BAMs (*_chr.bam)"]:::input --> B1["Footprint Detection<br>TOBIAS v. 0.13.3 <br>(TOBIAS.sh)"]:::script
         A2["Genome Reference (final_dm3.fa)"]:::input --> B1
         A3["ATAC-seq Peaks (*chr.bed)"]:::input --> B1
         A4["dm3-blacklist.v2.bed"]:::input --> B1
@@ -35,14 +36,14 @@ graph TD
 
     subgraph Phase_2 ["<b><big>Phase 2: TF Footprint Genomic Mapping</big></b>"]
         direction TB
-        G1["Raw FlyBase GFF3 Tracks"]:::input --> H1["format_drosophila_features.sh<br>(subdir_loop.sh)"]:::script
+        G1["Raw FlyBase GFF3 Tracks"]:::input --> H1["Reformatting Drosophila Features<br>(subdir_loop.sh)"]:::script
         H1 --> I1["Standardized UCSC BED Features<br>(chr* Chromosome Layout)"]:::output
         
         I1 --> J1["Downstream Extraction<br>(Bash/Awk Parsing)"]:::process
         J1 --> K1["Polished Reference Genomic Features"]:::output
         
         G2["Online RAMPAGE Data"]:::input --> H2["tss_to_promoter_generator.py"]:::script
-        H2 --> I2["Promoter Windows Generated<br>(-300/+60 bp & -250/+50 bp)"]:::output
+        H2 --> I2["Promoter Windows Generated<br>(-250/+50 bp)"]:::output
         
         K1 --> L1["BEDtools Merge Framework"]:::process
         I2 --> L1
@@ -94,3 +95,16 @@ graph TD
         Z1 --> AA1["Final Quantified Evolutionary<br>Conservation Metrics"]:::final
         Z2 --> AA2["Locus Dimension & Size<br>Frequency Distributions"]:::final
     end
+
+    linkStyle default stroke-width:4px;
+```
+
+---
+## Adapting this Pipeline
+
+To adapt this pipeline for your own use, you will need to change parts of each script manually:
+- Path files
+- What kind of BEDtools intersect option you want to use in bed_intersect.sh
+- TF footprint clustering thresholds in cluster_mapping.sh
+
+
