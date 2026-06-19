@@ -101,10 +101,10 @@ graph TD
 ---
 ## Publicly available genomic datasets used
 
-Conservation Track: [UCSC PhastCons 15](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=1754389848_7hHSN6x0dBeqQMKAP6xAEIkmYaZD&db=dm3&c=chr3R&l=26669270&r=26671386&o=26669270&t=26671386&g=phastCons15way&i=phastCons15way)
-Drosophila embryonic nuclear cycle 14 active histone marks [H3K4me1 and H3K27ac (GSE58935)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58935)
-Drosophila embryonic ATAC-seq from [Bozek et al. 2019 (GSE118240)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE118240)
-Transcription factor footprints collected from [JASPAR](https://jaspar.elixir.no/) and [FlyFactorSurvey](https://mccb.umassmed.edu/ffs/)
+- Conservation Track: [UCSC PhastCons 15](https://genome.ucsc.edu/cgi-bin/hgc?hgsid=1754389848_7hHSN6x0dBeqQMKAP6xAEIkmYaZD&db=dm3&c=chr3R&l=26669270&r=26671386&o=26669270&t=26671386&g=phastCons15way&i=phastCons15way)
+- Drosophila embryonic nuclear cycle 14 active histone marks: [H3K4me1 and H3K27ac (GSE58935)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58935)
+- Drosophila embryonic ATAC-seq from [Bozek et al. 2019 (GSE118240)](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE118240)
+- Transcription factor motifs collected from [JASPAR](https://jaspar.elixir.no/) and [FlyFactorSurvey](https://mccb.umassmed.edu/ffs/)
 
 ---
 ## Adapting this Pipeline
