@@ -57,7 +57,7 @@ graph TD
 
     subgraph Phase_3 ["<b><big>Phase 3: TF Footprint Clustering</big></b>"]
         direction TB
-        O1 --> P1["CRM_TFBS_map.txt"]:::input
+        O1 --> P1["TF Footprint information from CRE's <br> with at least 1 footprint <br> CRM_TFBS_map.txt"]:::input
         
         P1 --> Q1["tfbs_crm_distribution.py<br>(TFBS_per_CRM)"]:::script
         Q1 --> R1["TFBS Counts per Known Enhancer<br>(Median = 14)"]:::output
